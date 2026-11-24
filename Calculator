@@ -1,0 +1,449 @@
+#Important imports that allow certain functions/calls to work
+import cmath
+import math
+import sys
+import statistics
+#The Standardization of a variable that will be used to determine Radians or degrees
+Rad = None
+
+# The Definition of Addition that will get called when the user does the addition operation
+# I will go into more depth here to keep the other functions more tidy
+def addition():
+    # This is the way that I choose how many inputs to use, so the user can add many numbers all at once
+    addterms = int(input("choose the number of terms to add: "))
+    # I set a variable equal to zero for better calculations later
+    add = 0
+    # if the number of terms that the user enters is less than 2, aka 1,0, or a negative number
+    # This spits out that they must add more, as it is impossible to add together less than 2 numbers
+    # Then it recalls the addition function
+    if addterms < 2:
+        print("Please enter a number greater than one")
+        addition()
+    # The loop that allows for multiple terms to be added, the "terms" variable, which was set earlier now ticks down each loop until it hits 0
+    while addterms > 0:
+        # The numbers that will be added
+        Add = input("choose the number to add: ")
+        # Makes sure that pi and square roots are calculated correctly
+        Add = Add.replace("pi", "math.pi").replace("sqrt", "math.sqrt(")
+        #converts the numbers to a usable format
+        Add = float(eval(Add))
+        # the variable "add", which turns into the final output, and is added to the variable "Add", which was just chosen
+        # add starts at 0, labeled at line 11/12, and adds to each subsequent number
+        add = Add + add
+        # What causes the terms to tick down every loop
+        addterms = addterms - 1
+
+    # Once the amount of terms hits zero, it stops the loop and goes into this function
+    if addterms == 0:
+        # Prints the total of all the numbers
+        print(f"The total sum of these numbers is {add}")
+        # Asks the user if they would like to do another operation with the "cont" variable (continue)
+        cont = input("Would you like to do another operation?").strip().lower()
+        # If the user says any variation of yes, it recalls the "Operation" function
+        if cont in ["yes", "y"]:
+            Operation()
+
+# The Definition of subtraction, using similar means to addition with some tweaks
+def subtraction():
+    subterms = int(input("choose the number of terms to subtract: "))
+    if subterms < 2:
+        print("Please enter a number greater than one")
+        subtraction()
+        # The one difference addition and subtraction needed, this makes the first input not negative when subtracted before starting the loop
+        # Also prevents the need to set the variable prior to the input
+    if subterms > 0:
+            Sub = input("choose the number to subtract: ")
+            Sub = Sub.replace("pi", "math.pi").replace("sqrt", "math.sqrt(")
+            Sub = float(eval(Sub))
+            sub = Sub
+            subterms = subterms - 1
+        # The same loop as addition, and the main loop that runs every operation
+    while subterms > 0:
+            Sub = input("choose the number to subtract: ")
+            Sub = Sub.replace("pi", "math.pi").replace("sqrt", "math.sqrt(")
+            Sub = float(eval(Sub))
+            sub = sub - Sub
+            subterms = subterms - 1
+
+    if subterms == 0:
+        print(f"The difference of these  numbers is {sub}")
+        cont = input("Would you like to do another operation?").strip().lower()
+        if cont in ["yes", "y"]:
+            Operation()
+
+# The definition of Division
+def division():
+    divterms = int(input("choose the number of terms to Divide: "))
+    if divterms < 2:
+        print("Please enter a number greater than one")
+        division()
+        #same case as subtraction, makes sure the first term is not the reciprocal
+    if divterms > 0:
+        Div = input("choose the number to Divide: ")
+        Div = Div.replace("pi", "math.pi").replace("sqrt", "math.sqrt(")
+        Div = float(eval(Div))
+        div = Div
+        divterms = divterms - 1
+    while divterms > 0:
+        Div = input("choose the number to Divide: ")
+        Div = float(eval(Div))
+        div = div / Div
+        divterms = divterms - 1
+
+    if divterms == 0:
+        print(f"The quotient of these  numbers is {div}")
+        cont = input("Would you like to do another operation?").strip().lower()
+        if cont in ["yes", "y"]:
+            Operation()
+
+# The definition of Multiplication
+def multiplication():
+    multterms = int(input("choose the number of terms to multiply: "))
+    #Because of the difference in multiplication and addition, x needs to start as 1, not 0
+    mult = 1
+    if multterms < 2:
+        print("Please enter a number greater than one")
+        multiplication()
+    while multterms > 0:
+        Mult = input("choose the number to multiply: ")
+        Mult = Mult.replace("pi", "math.pi").replace("sqrt", "math.sqrt(")
+        Mult = float(eval(Mult))
+        mult = Mult * mult
+        multterms = multterms - 1
+
+    if multterms == 0:
+        print(f"The product of these numbers is {mult}")
+        cont = input("Would you like to do another operation?").strip().lower()
+        if cont in ["yes", "y"]:
+            Operation()
+
+# The definition of Exponentiation, otherwise known as raising to a power/exponent
+def exponentiation():
+    # only ever has two inputs, so I don't need the user to choose how many
+    expA = input("choose the base for the exponent: ")
+    expA = expA.replace("pi", "math.pi").replace("sqrt", "math.sqrt(")
+    expA = float(eval(expA))
+    expB = input("choose the exponent ")
+    expB = expB.replace("pi", "math.pi").replace("sqrt", "math.sqrt(")
+    expB = float(eval(expB))
+    print(f"The Result of the exponentiation is {expA**expB}")
+    cont = input("Would you like to do another operation?").strip().lower()
+    if cont in ["yes", "y"]:
+        Operation()
+
+
+#I got help through AI here, though almost of this code is self written, it just helped me with functionality
+# The definition of Sin
+def Sin():
+    #Determines if the input will be in Radians or Degrees, which is important with Trig functions, but does not ask for it on repeated use due to the globalization of the Rad Variable
+    global Rad
+    if Rad is None:
+        Rad = input("Is the input in radians or degrees? ").strip().lower()
+        # if the function is in radians
+    if Rad in ["radians", "rad"]:
+        SinA = input("(in Radians) Sin(").strip().lower()
+        SinA = SinA.replace("pi", "math.pi").replace("sqrt", "math.sqrt(")
+        Radians = float(eval(SinA))
+        # The actual function that calculates Sin
+        SinB = math.sin(Radians)
+        # Used to round the Sin function to 5 decimal places so that float point errors are nulled
+        SinC = int(SinB * 10000) / 10000
+        print(f"The Result is {SinC}")
+        cont = input("Would you like to do another operation?").strip().lower()
+        if cont in ["yes", "y"]:
+            Operation()
+        # if the function is in degrees, similar to above, with some unnecessary code removed
+    elif Rad in ["degrees", "deg", "degree"]:
+        Sina = input("(in Degrees) Sin(")
+        Sina = Sina.replace("pi", "math.pi").replace("sqrt", "math.sqrt(")
+        Sina = float(eval(Sina))
+        Radians = math.radians(Sina)
+        SinB = math.sin(Radians)
+        SinC = int(SinB * 10000) / 10000
+        print(f"The Result is {SinC}")
+        cont = input("Would you like to do another operation?").strip().lower()
+        if cont in ["yes", "y"]:
+            Operation()
+    else:
+        print("Input is neither Radians or Degrees")
+        Sin()
+
+# Definition of Cos, very similar to Sin, Copied and pasted with variables renamed and bounds shifted
+def Cos():
+    global Rad
+    if Rad is None:
+        Rad = input("Is the input in radians or degrees? ").strip().lower()
+    if Rad in ["radians", "rad"]:
+        CosA = input("(in Radians) Cos(").strip().lower()
+        CosA = CosA.replace("pi", "math.pi").replace("sqrt", "math.sqrt(")
+        Radians = float(eval(CosA))
+        CosB = math.cos(Radians)
+        CosC = int(CosB * 10000) / 10000
+        print(f"The Result is {CosC}")
+        cont = input("Would you like to do another operation?").strip().lower()
+        if cont in ["yes", "y"]:
+            Operation()
+    elif Rad in ["degrees", "deg", "degree"]:
+        Cosa = input("(in Degrees) Cos(")
+        Cosa = Cosa.replace("pi", "math.pi").replace("sqrt", "math.sqrt(")
+        Cosa = float(eval(Cosa))
+        Radians = math.radians(Cosa)
+        CosB = math.cos(Radians)
+        CosC = int(CosB * 10000) / 10000
+        print(f"The Result is {CosC}")
+        cont = input("Would you like to do another operation?").strip().lower()
+        if cont in ["yes", "y"]:
+            Operation()
+    else:
+        print("Input is neither Radians or Degrees")
+        Cos()
+
+#definition of Tan, Has some changes outlined, but ends up being similar to other trig functions
+def Tan():
+    global Rad
+    if Rad is None:
+        Rad = input("Is the input in radians or degrees? ").strip().lower()
+    if Rad in ["radians", "rad"]:
+        Tana = input("(in Radians, Please add * when multiplying by pi) Tan(").strip().lower()
+        TanA = Tana.replace("pi", "math.pi").replace("sqrt", "math.sqrt(")
+        Radians = float(eval(TanA))
+        TanB = math.tan(Radians)
+        # Unlike the other trig functions, this one can end up being undefined because it divides by cos
+        # This solves that issue by catching it if Cos=0 before it continues
+        if math.isclose(math.cos(Radians), 0, abs_tol=1e-9):
+            print(f"The result is undefined due to a divide by zero error")
+        else:
+            TanC = int(TanB * 10000) / 10000
+            print(f"The Result is {TanC}")
+        cont = input("Would you like to do another operation?").strip().lower()
+        if cont in ["yes", "y"]:
+            Operation()
+    elif Rad in ["degrees", "deg", "degree"]:
+        Tana = input("(in Degrees) Tan(")
+        Tana = Tana.replace("pi", "math.pi").replace("sqrt", "math.sqrt(")
+        Tana = float(eval(Tana))
+        Radians = math.radians(Tana)
+        TanB = math.tan(Radians)
+        if math.isclose(math.cos(Radians), 0, abs_tol=1e-9):
+            print(f"The result is undefined due to a divide by zero error")
+        else:
+            TanC = int(TanB * 10000) / 10000
+            print(f"The Result is {TanC}")
+        cont = input("Would you like to do another operation?").strip().lower()
+        if cont in ["yes", "y"]:
+            Operation()
+    else:
+        print("Input is neither Radians or Degrees")
+        Tan()
+
+# The Definition of Arcsin, which uses similar code, but different in key areas
+def Arcsin():
+    Asinx =  (input("(Please us * when entering multiples of pi) Arcsin(")).strip().lower()
+    Asinx = Asinx.replace("pi", "math.pi").replace("sqrt", "math.sqrt(")
+    Asinx = float(eval(Asinx))
+    #Because the input can only be between -1, and 1, this catches if the user inputs anything else.
+    if Asinx < -1:
+        print("Arcsin of a number less than -1 does not exist due to bound restrictions")
+        Arcsin()
+    elif Asinx > 1:
+        print ("Arcsin of a number greater than 1 does not exist due to bound restrictions")
+        Arcsin()
+
+    else:
+        Bsinx = math.asin(Asinx)
+        #Displays the result in both radians and degrees for user convenience
+        print(f"The Result is {Bsinx} Radians, or {math.degrees(Bsinx)} Degrees")
+        cont = input("Would you like to do another operation?").strip().lower()
+        if cont in ["yes", "y"]:
+            Operation()
+
+# Same as Arcsin, with variables renamed
+def Arccos():
+    Acosx =  (input("(Please us * when entering multiples of pi) Arccos(")).strip().lower()
+    Acosx = Acosx.replace("pi", "math.pi").replace("sqrt", "math.sqrt(")
+    Acosx = float(eval(Acosx))
+    if Acosx < -1:
+        print("Arccos of a number less than -1 does not exist due to bound restrictions")
+        Arccos()
+    elif Acosx > 1:
+        print ("Arccos of a number greater than 1 does not exist due to bound restrictions")
+        Arccos()
+
+    else:
+        Bcosx = math.acos(Acosx)
+        print(f"The Result is {Bcosx} Radians, or {math.degrees(Bcosx)} Degrees")
+        cont = input("Would you like to do another operation?").strip().lower()
+        if cont in ["yes", "y"]:
+            Operation()
+
+#Same as Arcsin and Arccos, with variables and bounds changed
+def Arctan():
+    Atanx =  input("(Please us * when entering multiples of pi) Arctan(").strip().lower()
+    Atanx = Atanx.replace("pi", "math.pi").replace("sqrt", "math.sqrt(")
+    Atanx = float(eval(Atanx))
+    if Atanx < -math.pi/2:
+        print("Arctan of a number less than -pi/2 does not exist due to bound restrictions")
+        Arctan()
+    elif Atanx > math.pi/2:
+        print ("Arctan of a number greater than pi/2 does not exist due to bound restrictions")
+        Arctan()
+
+    else:
+        Btanx = math.atan(Atanx)
+        print(f"The Result is {Btanx} Radians, or {math.degrees(Btanx)} Degrees")
+        cont = input("Would you like to do another operation?").strip().lower()
+        if cont in ["yes", "y"]:
+            Operation()
+
+#The Logarithm function
+def Log():
+    base = input("Choose the base for the Log: ").strip().lower()
+    Base = base.replace("pi", "math.pi").replace("sqrt", "math.sqrt(").replace("e", "math.e")
+    #Because log base e is Ln, catches the user input and sends to the Ln operation.
+    if Base == "math.e":
+        Ln()
+    # due to these bases ending up as undefined answers, catches and redirects back to the base function
+    else:
+        Base = float(eval(base))
+    if Base == 1 or Base == 0 or Base < 0:
+        print("Log base cannot be given number")
+        Operation()
+    else:
+        #calculates the log of a given number with a given base
+        arg = input(f"Log{Base}( ").strip().lower()
+        Arg = arg.replace("pi", "math.pi").replace("sqrt", "math.sqrt(").replace("e", "math.e")
+        Arg = float(eval(Arg))
+        Log = math.log(Arg, Base)
+        print(f" Log{Base}({arg}) = {Log}")
+        cont = input("Would you like to do another operation?").strip().lower()
+        if cont in ["yes", "y"]:
+            Operation()
+
+#definition of Ln, same as log with slightly fewer steps
+def Ln():
+    arg = input("Ln(").strip().lower()
+    Arg = arg.replace("pi", "math.pi").replace("sqrt", "math.sqrt(").replace("e", "math.e")
+    Arg = float(eval(Arg))
+    Ln = math.log(Arg)
+    print(f" Ln({arg}) = {Ln}")
+    cont = input("Would you like to do another operation?").strip().lower()
+    if cont in ["yes", "y"]:
+        Operation()
+
+#definition of factorial, a simple operation that uses the same steps as previous definitions
+def Factorial():
+    fact = input("(positive whole numbers only) factorial(")
+    Fact = int(eval(fact))
+    Fact = math.factorial(Fact)
+    print(f" {fact}! = {Fact}")
+    cont = input("Would you like to do another operation?").strip().lower()
+    if cont in ["yes", "y"]:
+        Operation()
+
+#Definition of standard deviation, similar to the basic operations, with a given amount of terms, and calculating their deviation
+def StandardDeviation():
+    SDterms = int(input("How many points are in your dataset: "))
+    SDlist = []
+    if SDterms < 2:
+        print("There cannot be less than 2 points")
+        StandardDeviation()
+    else:
+        while SDterms > 0:
+            Item = input("Add a term: ").strip().lower().replace("pi", "math.pi").replace("sqrt", "math.sqrt(").replace("e", "math.e")
+            Item = float(eval(Item))
+            SDlist.append(Item)
+            SDterms = SDterms - 1
+        if SDterms == 0:
+            SD = statistics.stdev(SDlist)
+            print(f"The Standard Deviation is {SD}")
+            cont = input("Would you like to do another operation?").strip().lower()
+            if cont in ["yes", "y"]:
+                Operation()
+
+#Definition of Mean, same as above but different variables
+def Mean():
+    Mterms = int(input("How many points are in your dataset: "))
+    Meanlist = []
+    if Mterms < 2:
+        print("There cannot be less than 2 points")
+        Mean()
+    else:
+        while Mterms > 0:
+            Item = input("Add a term: ").strip().lower().replace("pi", "math.pi").replace("sqrt", "math.sqrt(").replace("e", "math.e")
+            Item = float(eval(Item))
+            Meanlist.append(Item)
+            Mterms = Mterms - 1
+        if Mterms == 0:
+            M = statistics.mean(Meanlist)
+            print(f"The Mean is {M}")
+            cont = input("Would you like to do another operation?").strip().lower()
+            if cont in ["yes", "y"]:
+                Operation()
+
+
+
+
+
+#This is the definition of the master program that goes to each operation when the user inputs them. Using an input with certain keywords for each operation
+def Operation():
+    global Rad
+    op = input("What operation would you like to do? ").strip().lower()
+    # Basic formulaic operations
+    if op in ["add", "addition"]:
+        addition()
+    elif op in ["sub", "subtraction"]:
+        subtraction()
+    elif op in ["mult", "multiplication"]:
+        multiplication()
+    elif op in ["div", "division"]:
+        division()
+    #Trigonometric operations
+    elif op in ["sin", "s", "si"]:
+        Sin()
+    elif op in ["cos", "c", "co"]:
+        Cos()
+    elif op in ["tan", "t"]:
+        Tan()
+    elif op in ["arcsin", "asin"]:
+        Arcsin()
+    elif op in ["arccos", "acos"]:
+        Arccos()
+    elif op in ["arctan", "atan"]:
+        Arctan()
+    # Exponential and Logarithms
+    elif op in ["exp", "exponentiation", "exponent"]:
+        exponentiation()
+    elif op in ["log"]:
+        Log()
+    elif op in ["ln"]:
+        Ln()
+    #Factorials
+    elif op in ["factorial", "factorials", "fac", "fact"]:
+        Factorial()
+    # Standard Deviation and Statistics
+    elif op in ["standard", "deviation", "sd", "standard deviation"]:
+        StandardDeviation()
+    elif op in ["average", "mean"]:
+        Mean()
+    #Setting the mode to degrees or Radians
+    elif op in ["degrees", "degree"]:
+        print("Mode set to degrees")
+        Rad = "degrees"
+        Operation()
+    elif op in ["radians","rad"]:
+        Rad = "radians"
+        print("Mode set to radians")
+        Operation()
+    # A definitive end function
+    elif op == "end":
+        sys.exit()
+    # The catchall if the user types in a different operation, or misspells an operation.
+    else :
+        print("This operation does not exist, please choose one that does")
+        Operation()
+
+#what actually runs the function, without this the whole program would simply be definitions.
+Operation()
+
+
+
